@@ -43,15 +43,15 @@
             for (let result of results) {
                 let tmpArr = [];
 
-                let signAndNumber = result[1] === "+" ? +1 : Number(result[1]);
+                let number = result[1] === "+" ? +1 : Number(result[1]);
+                let variable = result[2].split('').sort().join('');
+                console.log(variable);
                 // console.log(result[0]);
                 console.log(result[1]);
-                console.log(result[2]);
             }
         }
 
-        simplify('x-7xy+10zch');
-
+        simplify('x-7xyda+10zch');
     </script>
 </body>
 
