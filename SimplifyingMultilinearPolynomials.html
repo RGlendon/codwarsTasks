@@ -30,7 +30,8 @@
 
     <script>
         function simplify(poly) {
-            const tmp = [];
+            const tmpObj = {};
+            let str = '';
 
             if (/^\d?\p{Ll}+/iu.test(poly)) {
                 poly = "+" + poly;
@@ -41,17 +42,26 @@
 
 
             for (let result of results) {
-                let tmpArr = [];
-
                 let number = result[1] === "+" ? +1 : Number(result[1]);
                 let variable = result[2].split('').sort().join('');
-                console.log(variable);
-                // console.log(result[0]);
-                console.log(result[1]);
+
+                tmpObj[variable] = tmpObj[variable] ? tmpObj[variable] + number : number;
             }
+
+            Object.keys(tmpObj).sort((a, b) => {
+                if (a.length < b.length) return -1;
+                if (a.length > b.length) return +1;
+                return a.localeCompare(b);
+            }).forEach((key, ind) => {
+                if (tmpObj[key] != 0) {
+                    str += `${tmpObj[key] > 0 && str.length !== 0 ? `+${tmpObj[key]}` : tmpObj[key]}` + key;
+                }
+            });
+
+            return str;
         }
 
-        simplify('x-7xyda+10zch');
+        console.log(simplify('6x-7xyda+10zch-5x'));
     </script>
 </body>
 
