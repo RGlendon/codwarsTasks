@@ -52,18 +52,23 @@
                 if (a.length < b.length) return -1;
                 if (a.length > b.length) return +1;
                 return a.localeCompare(b);
-            }).forEach((key) => {
-                if (tmpObj[key] != 0) {
-                    // let numb = Math.abs(tmpObj[key]) === 1 ? tmpObj[key] > 0 ? "+" :
-                    str += `${
-                        tmpObj[key] > 0 && str.length !== 0 
-                        ? tmpObj[key] === 1 
-                            ? "+" 
-                            : `+${tmpObj[key]}` 
-                        : tmpObj[key] === -1 
-                            ? "-"
-                            : tmpObj[key]
-                    }` + key;
+            }).forEach((variable, ind) => {
+                // либо можно указать switch(true)
+                switch (tmpObj[variable]) {
+                    case 0:
+                        break;
+                    case -1:
+                        str += `-` + variable;
+                        break;
+                    case +1:
+                        str += str.length === 0 ? variable : `+` + variable;
+                        break;
+                    default:
+                        if (tmpObj[variable] > 0) {
+                            str += str.length === 0 ? `${tmpObj[variable]}` + variable : '+' +`${tmpObj[variable]}` + variable;
+                        } else {
+                            str += `${tmpObj[variable]}` + variable;
+                        }
                 }
             });
 
