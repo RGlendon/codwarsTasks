@@ -33,20 +33,26 @@
             const tmpObj = {};
             let str = '';
 
-            if (/^\d?\p{Ll}+/iu.test(poly)) {
+            if (/^\d?\w+/i.test(poly)) {
                 poly = "+" + poly;
             }
 
-            const regExp = /([+-]\d*?)(\p{Ll}+)/iug;
-            const results = poly.matchAll(regExp);
-
-
-            for (let result of results) {
-                let number = result[1] === "+" ? +1 : Number(result[1]);
+            const regExp = /([+-]\d*?)([a-zA-Z]+)/ig;
+            // const results = poly.matchAll(regExp);
+            while (result = regExp.exec(poly)) {
+                let number = result[1] === "+" ? +1 : result[1] === "-" ? -1 : Number(result[1]);
                 let variable = result[2].split('').sort().join('');
 
-                tmpObj[variable] = tmpObj[variable] ? tmpObj[variable] + number : number;
+                tmpObj[variable] = tmpObj.hasOwnProperty(variable) ? tmpObj[variable] + number : number;
             }
+
+
+            // for (let result of results) {
+            //     let number = result[1] === "+" ? +1 : result[1] === "-" ? -1 : Number(result[1]);
+            //     let variable = result[2].split('').sort().join('');
+
+            //     tmpObj[variable] = tmpObj.hasOwnProperty(variable) ? tmpObj[variable] + number : number;
+            // }
 
             Object.keys(tmpObj).sort((a, b) => {
                 if (a.length < b.length) return -1;
@@ -65,7 +71,7 @@
                         break;
                     default:
                         if (tmpObj[variable] > 0) {
-                            str += str.length === 0 ? `${tmpObj[variable]}` + variable : '+' +`${tmpObj[variable]}` + variable;
+                            str += str.length === 0 ? `${tmpObj[variable]}` + variable : '+' + `${tmpObj[variable]}` + variable;
                         } else {
                             str += `${tmpObj[variable]}` + variable;
                         }
@@ -75,7 +81,7 @@
             return str;
         }
 
-        console.log(simplify('6x-7xyda+10zch-5x'));
+        console.log(simplify('-abc+3a+2ac'));
     </script>
 </body>
 
