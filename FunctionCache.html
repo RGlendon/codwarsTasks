@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Function Cache</title>
+</head>
+
+<body>
+    <script>
+        // function cache(func) {
+        //     let innerCahe = new Map();
+
+        //     return function () {
+        //         let key = hash(...arguments);
+
+        //         if (innerCahe.has(key)) {
+        //             console.log('из кеша')
+        //             return innerCahe.get(key);
+        //         }
+        //         let result = func(...arguments);
+
+        //         innerCahe.set(key, result);
+        //         console.log('посчитал')
+        //         return result;
+        //     }
+        // }
+
+        // function hash(...args) {
+        //     // console.log(Array.isArray(args))
+        //     return args.reduce((str, arg) => str + arg, '');
+        // }
+        function cache(func) {
+            let innerCahe = {};
+
+            return function () {
+                let key = JSON.stringify(arguments);
+
+                if (innerCahe.hasOwnProperty(key)) {
+                    console.log('из кеша')
+                    return innerCahe[key];
+                }
+                let result = func(...arguments);
+                innerCahe[key] = result;
+                console.log('посчитал')
+                return result;
+            }
+        }
+
+        function slow(arg1, arg2, arg3) {
+            // здесь могут быть ресурсоёмкие вычисления
+            return "тест";
+        }
+
+        slow = cache(slow);
+
+        console.log(slow('foo', 'bar', 'baz'));
+        console.log(slow('foo', 'bar', 'baz'));
+        console.log(slow('bar', 'foo', 'baz'));
+        // console.log(slow(1, 'привет'));
+    </script>
+</body>
+
+</html>
